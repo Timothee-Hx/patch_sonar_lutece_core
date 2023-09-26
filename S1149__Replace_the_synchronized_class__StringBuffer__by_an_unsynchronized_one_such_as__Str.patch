@@ -1,0 +1,435 @@
+Subject: [PATCH] S1149: Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".
+---
+Index: src/java/fr/paris/lutece/portal/business/portlet/AliasPortlet.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/business/portlet/AliasPortlet.java b/src/java/fr/paris/lutece/portal/business/portlet/AliasPortlet.java
+--- a/src/java/fr/paris/lutece/portal/business/portlet/AliasPortlet.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/business/portlet/AliasPortlet.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -121,7 +121,7 @@
+         int indexFin = strXmlAlias.indexOf( "</" + TAG_PORTLET + ">" );
+         strXmlAlias = strXmlAlias.substring( indexDeb + strTagPortletName.length( ), indexFin );
+ 
+-        StringBuffer buffXml = new StringBuffer( );
++        StringBuilder buffXml = new StringBuilder( );
+         XmlUtil.beginElement( buffXml, TAG_PORTLET );
+         XmlUtil.addElement( buffXml, TAG_PORTLET_NAME, getName( ) );
+         buffXml.append( strXmlAlias );
+Index: src/java/fr/paris/lutece/portal/business/portlet/Portlet.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/business/portlet/Portlet.java b/src/java/fr/paris/lutece/portal/business/portlet/Portlet.java
+--- a/src/java/fr/paris/lutece/portal/business/portlet/Portlet.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/business/portlet/Portlet.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -518,9 +518,9 @@
+      *            The string buffer which contains the XML content of this portlet
+      * @return The XML content of this portlet encapsulated by the common tags
+      */
+-    protected String addPortletTags( StringBuffer strPortlet )
++    protected String addPortletTags( StringBuilder strPortlet )
+     {
+-        StringBuffer strXml = new StringBuffer( );
++        StringBuilder strXml = new StringBuilder( );
+         XmlUtil.beginElement( strXml, TAG_PORTLET );
+         XmlUtil.addElementHtml( strXml, TAG_PORTLET_NAME, getName( ) );
+         XmlUtil.addElement( strXml, TAG_PORTLET_ID, getId( ) );
+Index: src/java/fr/paris/lutece/portal/business/resourceenhancer/IResourceDisplayManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/business/resourceenhancer/IResourceDisplayManager.java b/src/java/fr/paris/lutece/portal/business/resourceenhancer/IResourceDisplayManager.java
+--- a/src/java/fr/paris/lutece/portal/business/resourceenhancer/IResourceDisplayManager.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/business/resourceenhancer/IResourceDisplayManager.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -54,7 +54,7 @@
+      * @param nResourceId
+      *            The resource Id
+      */
+-    void getXmlAddOn( StringBuffer strXml, String strResourceType, int nResourceId );
++    void getXmlAddOn( StringBuilder strXml, String strResourceType, int nResourceId );
+ 
+     /**
+      * Add datas to the model use by document template
+Index: src/java/fr/paris/lutece/portal/business/resourceenhancer/ResourceEnhancer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/business/resourceenhancer/ResourceEnhancer.java b/src/java/fr/paris/lutece/portal/business/resourceenhancer/ResourceEnhancer.java
+--- a/src/java/fr/paris/lutece/portal/business/resourceenhancer/ResourceEnhancer.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/business/resourceenhancer/ResourceEnhancer.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -65,7 +65,7 @@
+      * @param nResourceId
+      *            The resource Id
+      */
+-    public static void getXmlAddOn( StringBuffer strXml, String strResourceType, int nResourceId )
++    public static void getXmlAddOn( StringBuilder strXml, String strResourceType, int nResourceId )
+     {
+         List<IResourceDisplayManager> managers = SpringContextService.getBeansOfType( IResourceDisplayManager.class );
+ 
+Index: src/java/fr/paris/lutece/portal/service/admin/AdminUserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/service/admin/AdminUserService.java b/src/java/fr/paris/lutece/portal/service/admin/AdminUserService.java
+--- a/src/java/fr/paris/lutece/portal/service/admin/AdminUserService.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/service/admin/AdminUserService.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -1424,7 +1424,7 @@
+     public static String getXmlFromUser( AdminUser user, boolean bIncludeRoles, boolean bIncludeRights, boolean bIncludeWorkgroups, boolean bIncludeAttributes,
+             List<IAttribute> listAttributes )
+     {
+-        StringBuffer sbXml = new StringBuffer( );
++        StringBuilder sbXml = new StringBuilder( );
+         DateFormat dateFormat = new SimpleDateFormat( );
+ 
+         XmlUtil.beginElement( sbXml, CONSTANT_XML_USER );
+Index: src/java/fr/paris/lutece/portal/service/portal/PortalMenuService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/service/portal/PortalMenuService.java b/src/java/fr/paris/lutece/portal/service/portal/PortalMenuService.java
+--- a/src/java/fr/paris/lutece/portal/service/portal/PortalMenuService.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/service/portal/PortalMenuService.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -157,7 +157,7 @@
+     {
+         Collection<Page> listPagesMenu = PageHome.getChildPagesMinimalData( PortalService.getRootPageId( ) );
+ 
+-        StringBuffer strXml = new StringBuffer( );
++        StringBuilder strXml = new StringBuilder( );
+         strXml.append( XmlUtil.getXmlHeader( ) );
+         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU_LIST );
+ 
+@@ -190,7 +190,7 @@
+         return xmlTransformerService.transformBySourceWithXslCache( strXml.toString( ), xslSource, mapParamRequest, outputProperties );
+     }
+ 
+-    private void buildPageXml( Page menuPage, StringBuffer strXml, int nMode, int nMenuIndex, int nCurrentPageId, HttpServletRequest request )
++    private void buildPageXml( Page menuPage, StringBuilder strXml, int nMode, int nMenuIndex, int nCurrentPageId, HttpServletRequest request )
+     {
+         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
+         XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
+Index: src/java/fr/paris/lutece/portal/service/portal/PortalService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/service/portal/PortalService.java b/src/java/fr/paris/lutece/portal/service/portal/PortalService.java
+--- a/src/java/fr/paris/lutece/portal/service/portal/PortalService.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/service/portal/PortalService.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -214,7 +214,7 @@
+      */
+     public static String getXmlPagesList( Collection<Page> listPages )
+     {
+-        StringBuffer strXml = new StringBuffer( );
++        StringBuilder strXml = new StringBuilder( );
+         strXml.append( XmlUtil.getXmlHeader( ) );
+         XmlUtil.beginElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
+ 
+@@ -638,7 +638,7 @@
+      */
+     private static String getXmlPagesListExtended( String strXmlExtend )
+     {
+-        StringBuffer strXml = new StringBuffer( );
++        StringBuilder strXml = new StringBuilder( );
+         strXml.append( XmlUtil.getXmlHeader( ) );
+         XmlUtil.beginElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
+ 
+Index: src/java/fr/paris/lutece/portal/web/admin/AdminMapJspBean.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/web/admin/AdminMapJspBean.java b/src/java/fr/paris/lutece/portal/web/admin/AdminMapJspBean.java
+--- a/src/java/fr/paris/lutece/portal/web/admin/AdminMapJspBean.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/web/admin/AdminMapJspBean.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -94,7 +94,7 @@
+      */
+     public String getMap( HttpServletRequest request )
+     {
+-        StringBuffer strArborescenceXml = new StringBuffer( );
++        StringBuilder strArborescenceXml = new StringBuilder( );
+ 
+         StringBuilder strCssId = new StringBuilder( );
+         int nLevel = 0;
+@@ -144,7 +144,7 @@
+      * @param strCssId
+      *            The id Css for menu tree
+      */
+-    private void findPages( HttpServletRequest request, StringBuffer strXmlArborescence, int nPageId, int nLevel, String strCurrentPageId,
++    private void findPages( HttpServletRequest request, StringBuilder strXmlArborescence, int nPageId, int nLevel, String strCurrentPageId,
+             StringBuilder strCssId )
+     {
+         Page page = PageHome.getPage( nPageId );
+Index: src/java/fr/paris/lutece/portal/web/includes/TreeMenuInclude.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/web/includes/TreeMenuInclude.java b/src/java/fr/paris/lutece/portal/web/includes/TreeMenuInclude.java
+--- a/src/java/fr/paris/lutece/portal/web/includes/TreeMenuInclude.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/web/includes/TreeMenuInclude.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -116,7 +116,7 @@
+      */
+     public String buildTreeMenuContent( int nIdPage, int nMode, HttpServletRequest request )
+     {
+-        StringBuffer strXml = new StringBuffer( );
++        StringBuilder strXml = new StringBuilder( );
+ 
+         String strCurrentPageId = Integer.toString( nIdPage );
+ 
+Index: src/java/fr/paris/lutece/portal/web/user/AdminUserJspBean.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/web/user/AdminUserJspBean.java b/src/java/fr/paris/lutece/portal/web/user/AdminUserJspBean.java
+--- a/src/java/fr/paris/lutece/portal/web/user/AdminUserJspBean.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/web/user/AdminUserJspBean.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -1345,7 +1345,7 @@
+             }
+         }
+ 
+-        StringBuffer sbXml = new StringBuffer( XmlUtil.getXmlHeader( ) );
++        StringBuilder sbXml = new StringBuilder( XmlUtil.getXmlHeader( ) );
+         XmlUtil.beginElement( sbXml, CONSTANT_XML_USERS );
+ 
+         for ( AdminUser user : listUsers )
+Index: src/java/fr/paris/lutece/portal/web/xpages/SiteMapApp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/web/xpages/SiteMapApp.java b/src/java/fr/paris/lutece/portal/web/xpages/SiteMapApp.java
+--- a/src/java/fr/paris/lutece/portal/web/xpages/SiteMapApp.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/web/xpages/SiteMapApp.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -193,7 +193,7 @@
+      */
+     private String buildPageContent( int nMode, HttpServletRequest request )
+     {
+-        StringBuffer strArborescenceXml = new StringBuffer( );
++        StringBuilder strArborescenceXml = new StringBuilder( );
+         strArborescenceXml.append( XmlUtil.getXmlHeader( ) );
+ 
+         int nLevel = 0;
+@@ -250,7 +250,7 @@
+      * @param request
+      *            The HttpServletRequest
+      */
+-    private void findPages( StringBuffer strXmlArborescence, int nPageId, int nLevel, Set<Integer> seenPages, HttpServletRequest request )
++    private void findPages( StringBuilder strXmlArborescence, int nPageId, int nLevel, Set<Integer> seenPages, HttpServletRequest request )
+     {
+         if ( !seenPages.add( nPageId ) )
+         {
+Index: src/java/fr/paris/lutece/portal/web/xpages/XPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/portal/web/xpages/XPage.java b/src/java/fr/paris/lutece/portal/web/xpages/XPage.java
+--- a/src/java/fr/paris/lutece/portal/web/xpages/XPage.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/portal/web/xpages/XPage.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -160,7 +160,7 @@
+      */
+     public void setExtendedPathLabel( ReferenceList listPathItem )
+     {
+-        StringBuffer sbXml = new StringBuffer( );
++        StringBuilder sbXml = new StringBuilder( );
+ 
+         for ( ReferenceItem item : listPathItem )
+         {
+Index: src/java/fr/paris/lutece/util/http/SecurityUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/util/http/SecurityUtil.java b/src/java/fr/paris/lutece/util/http/SecurityUtil.java
+--- a/src/java/fr/paris/lutece/util/http/SecurityUtil.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/util/http/SecurityUtil.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -365,10 +365,10 @@
+     }
+ 
+     /**
+-     * Write a title into the dump stringbuffer
++     * Write a title into the dump StringBuilder
+      * 
+      * @param sbDump
+-     *            The dump stringbuffer
++     *            The dump StringBuilder
+      * @param strTitle
+      *            The title
+      */
+@@ -380,10 +380,10 @@
+     }
+ 
+     /**
+-     * Write request variables into the dump stringbuffer
++     * Write request variables into the dump StringBuilder
+      * 
+      * @param sb
+-     *            The dump stringbuffer
++     *            The dump StringBuilder
+      * @param request
+      *            The HTTP request
+      */
+@@ -406,10 +406,10 @@
+     }
+ 
+     /**
+-     * Write request headers infos into the dump stringbuffer
++     * Write request headers infos into the dump StringBuilder
+      * 
+      * @param sb
+-     *            The dump stringbuffer
++     *            The dump StringBuilder
+      * @param request
+      *            The HTTP request
+      */
+@@ -432,10 +432,10 @@
+     }
+ 
+     /**
+-     * Write request parameters infos into the dump stringbuffer
++     * Write request parameters infos into the dump StringBuilder
+      * 
+      * @param sb
+-     *            The dump stringbuffer
++     *            The dump StringBuilder
+      * @param request
+      *            The HTTP request
+      */
+@@ -461,7 +461,7 @@
+     }
+ 
+     /**
+-     * Write name / value infos into the dump stringbuffer
++     * Write name / value infos into the dump StringBuilder
+      * 
+      * @param sb
+      *            The dump string buffer
+Index: src/java/fr/paris/lutece/util/xml/XmlUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/java/fr/paris/lutece/util/xml/XmlUtil.java b/src/java/fr/paris/lutece/util/xml/XmlUtil.java
+--- a/src/java/fr/paris/lutece/util/xml/XmlUtil.java	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/src/java/fr/paris/lutece/util/xml/XmlUtil.java	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -80,7 +80,7 @@
+      * @param strValue
+      *            The value of the element
+      */
+-    public static void addElement( StringBuffer strXmlBuffer, String strTag, String strValue )
++    public static void addElement( StringBuilder strXmlBuffer, String strTag, String strValue )
+     {
+         if ( SecurityUtil.containsXmlExternalEntityInjectionTerms( strValue ) )
+         {
+@@ -106,7 +106,7 @@
+      * @param attrList
+      *            The attributes list
+      */
+-    public static void addEmptyElement( StringBuffer strXmlBuffer, String strTag, Map<?, ?> attrList )
++    public static void addEmptyElement( StringBuilder strXmlBuffer, String strTag, Map<?, ?> attrList )
+     {
+         strXmlBuffer.append( TAG_BEGIN );
+         strXmlBuffer.append( strTag );
+@@ -135,7 +135,7 @@
+      * @param attrList
+      *            the attribute list
+      */
+-    public static void addElement( StringBuffer strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
++    public static void addElement( StringBuilder strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
+     {
+         if ( SecurityUtil.containsXmlExternalEntityInjectionTerms( strValue ) )
+         {
+@@ -171,7 +171,7 @@
+      * @param nValue
+      *            The value of the element
+      */
+-    public static void addElement( StringBuffer strXmlBuffer, String strTag, int nValue )
++    public static void addElement( StringBuilder strXmlBuffer, String strTag, int nValue )
+     {
+         addElement( strXmlBuffer, strTag, String.valueOf( nValue ) );
+     }
+@@ -186,7 +186,7 @@
+      * @param strValue
+      *            The value of the element
+      */
+-    public static void addElementHtml( StringBuffer strXmlBuffer, String strTag, String strValue )
++    public static void addElementHtml( StringBuilder strXmlBuffer, String strTag, String strValue )
+     {
+         if ( SecurityUtil.containsXmlExternalEntityInjectionTerms( strValue ) )
+         {
+@@ -214,7 +214,7 @@
+      * @param attrList
+      *            The attributes list
+      */
+-    public static void addElementHtml( StringBuffer strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
++    public static void addElementHtml( StringBuilder strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
+     {
+         if ( SecurityUtil.containsXmlExternalEntityInjectionTerms( strValue ) )
+         {
+@@ -249,7 +249,7 @@
+      * @param strTag
+      *            The tag name of the element to add
+      */
+-    public static void beginElement( StringBuffer strXmlBuffer, String strTag )
++    public static void beginElement( StringBuilder strXmlBuffer, String strTag )
+     {
+         beginElement( strXmlBuffer, strTag, null );
+     }
+@@ -264,7 +264,7 @@
+      * @param attrList
+      *            The attributes list
+      */
+-    public static void beginElement( StringBuffer strXmlBuffer, String strTag, Map<?, ?> attrList )
++    public static void beginElement( StringBuilder strXmlBuffer, String strTag, Map<?, ?> attrList )
+     {
+         strXmlBuffer.append( TAG_BEGIN );
+         strXmlBuffer.append( strTag );
+@@ -289,7 +289,7 @@
+      * @param strTag
+      *            The tag name of the element to add
+      */
+-    public static void endElement( StringBuffer strXmlBuffer, String strTag )
++    public static void endElement( StringBuilder strXmlBuffer, String strTag )
+     {
+         strXmlBuffer.append( TAG_CLOSE_BEGIN );
+         strXmlBuffer.append( strTag );
+Index: webapp/jsp/site/Portal.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/webapp/jsp/site/Portal.jsp b/webapp/jsp/site/Portal.jsp
+--- a/webapp/jsp/site/Portal.jsp	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/webapp/jsp/site/Portal.jsp	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -1,8 +1,6 @@
+ <%@ page errorPage="ErrorPagePortal.jsp" %><%@
+     page import="fr.paris.lutece.portal.service.security.UserNotSignedException,
+                  fr.paris.lutece.portal.service.security.SecurityService,
+-                 java.util.Enumeration,
+-                 java.lang.StringBuffer,
+                  fr.paris.lutece.portal.web.LocalVariables,
+                  fr.paris.lutece.portal.service.message.SiteMessageException,
+                  fr.paris.lutece.portal.service.page.PageNotFoundException,
+Index: webapp/jsp/site/SiteMessage.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/webapp/jsp/site/SiteMessage.jsp b/webapp/jsp/site/SiteMessage.jsp
+--- a/webapp/jsp/site/SiteMessage.jsp	(revision 0075118c98bfd8c26c48da57f24861137cf0e7ed)
++++ b/webapp/jsp/site/SiteMessage.jsp	(revision c56837f756f5be39d8c1c15ec65a87fb2bf7ef51)
+@@ -1,6 +1,4 @@
+ <%@ page errorPage="ErrorPagePortal.jsp" %>
+-<%@ page import="java.util.Enumeration" %>
+-<%@ page import="java.lang.StringBuffer" %>
+ <%@ page import="fr.paris.lutece.portal.web.LocalVariables" %>
+ <%@page import="fr.paris.lutece.portal.service.page.PageNotFoundException"%>
+ <%@page import="fr.paris.lutece.portal.service.util.AppPathService"%>

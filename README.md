@@ -1,0 +1,1 @@
+# patch_sonar_lutece_core
